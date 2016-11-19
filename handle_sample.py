@@ -6,7 +6,7 @@ import subprocess
 import time
 
 
-PROJECT_DIR = "C:\\Users\\ZYC\\PycharmProjects\\AudioEmotionExcavate"
+PROJECT_DIR = "path\to\dir"
 ALGO_NAMES = ("svm", "randomforest", "gradientboosting", "extratrees")
 emotion_list = ("angry", "fear", "happy", "neutral", "sad", "surprise")
 svm_confusion_matrix = ConfusionMatrix([[16.7, 0, 1.3, 1.2, 0, 0.8],

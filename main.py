@@ -6,7 +6,7 @@ from models import SqlSession, Files
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-app.config['UPLOAD_DIR'] = "C:\Users\ZYC\PycharmProjects\AudioEmotionExcavate\upload_dir"
+app.config['UPLOAD_DIR'] = "path\to\dir"
 
 
 @app.route('/')
