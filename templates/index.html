@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <header class="jumbotron" style="background-color:#95f0c8">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <h1 align="center">语音情感挖掘</h1>
+                    <br>
+                    <label class="control-label col-sm-2">上传语音样本</label>
+                    <div class="col-sm-10">
+                        <input id="input_1" type="file" multiple name=file[] class="file" data-show-preview="false"
+                               data-allowed-file-extensions='["wav"]'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">历史上传记录</div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>文件名</th>
+                    <th>上传时间</th>
+                    <th>进展</th>
+                    <th>结果</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.origin_name }}</td>
+                        <td>{{ item.date_time }}</td>
+                        <td>
+                            <font color="#3df02b">上传成功</font>
+                            {% if item.progress>=4 %}
+                                <font color="#3df02b">－>特征提取成功</font>
+                            {% elif item.progress==3 %}
+                                <font color="#FF0000">－>特征提取失败</font>
+                            {% elif item.progress==2 %}
+                                <font color="#FFCC33">－>正在特征提取</font>
+                            {% else %}
+                                <font color="#C0C0C0">－>特征提取</font>
+                            {% endif %}
+                            {% if item.progress>=7 %}
+                                <font color="#3df02b">－>分类识别成功</font>
+                            {% elif item.progress==6 %}
+                                <font color="#FF0000">－>分类识别失败</font>
+                            {% elif item.progress==5 %}
+                                <font color="#FFCC33">－>正在分类识别</font>
+                            {% else %}
+                                <font color="#C0C0C0">－>分类识别</font>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.result or " " }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <nav>
+            <ul class="pagination">
+                <li><a href="{{ url_for("index",page=1) }}">&laquo;</a></li>
+                {% for i in range(total_page) %}
+                    {% if i + 1==cur_page %}
+                        <li class="active"><a href="#">{{ i + 1 }} <span class="sr-only"></span></a></li>
+                    {% else %}
+                        <li><a href="{{ url_for("index",page=i + 1) }}">{{ i + 1 }}</a></li>
+                    {% endif %}
+
+                {% endfor %}
+
+                <li><a href="{{ url_for("index",page=total_page) }}">&raquo;</a></li>
+            </ul>
+        </nav>
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $("#input_1").fileinput({uploadUrl: "{{ url_for('upload') }}"});
+    </script>
+{% endblock %}
