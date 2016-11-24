@@ -6,33 +6,33 @@ import subprocess
 import time
 
 
-PROJECT_DIR = "path\to\dir"
+PROJECT_DIR = "C:\\Users\\ZYC\\PycharmProjects\\AudioEmotionExcavate"
 ALGO_NAMES = ("svm", "randomforest", "gradientboosting", "extratrees")
 emotion_list = ("angry", "fear", "happy", "neutral", "sad", "surprise")
-svm_confusion_matrix = ConfusionMatrix([[16.7, 0, 1.3, 1.2, 0, 0.8],
-                                        [0.5, 10.2, 0.7, 0.3, 2, 0.2],
-                                        [2.1, 0.4, 11.5, 1.3, 0.2, 1.1],
-                                        [0.7, 0.5, 0.8, 16.3, 0.7, 0.1],
-                                        [1, 2.2, 0.5, 1.1, 10.9, 0],
-                                        [1.3, 0.2, 1.1, 0.3, 0.3, 11.5]])
-randomforest_confusion_matrix = ConfusionMatrix([[15.1, 0, 1.8, 1.7, 0.2, 1.3],
-                                                 [0.6, 7.6, 0.7, 1, 3.1, 1],
-                                                 [2, 0.1, 10.5, 2, 0, 1.9],
-                                                 [0.7, 0.5, 0.5, 16.3, 0.7, 0.3],
-                                                 [1, 2.7, 0.4, 1.7, 9.9, 0],
-                                                 [1.3, 0.1, 1.6, 0.6, 0.1, 11.1]])
-extratrees_confusion_matrix = ConfusionMatrix([[15, 0, 1.9, 1.3, 0.2, 1.6],
-                                               [0.7, 7.6, 0.8, 0.6, 3.4, 0.8],
-                                               [2.2, 0.1, 10.7, 1.3, 0, 2.2],
-                                               [0.9, 0.4, 0.6, 16.5, 0.6, 0.2],
-                                               [1.1, 2.8, 0.2, 1.6, 10, 0],
-                                               [1, 0.2, 1.4, 0.5, 0.1, 11.6]])
-gradientboosting_confusion_matrix = ConfusionMatrix([[16.9, 0.4, 2.2, 2.1, 0.3, 1.3],
-                                                     [1.4, 3.8, 1, 0.8, 3.6, 1],
-                                                     [2.9, 0.6, 9.4, 1.8, 0.4, 0.8],
-                                                     [1.3, 0.6, 1.2, 16.9, 1, 0.8],
-                                                     [1.8, 1.8, 1.4, 1.3, 8, 0.3],
-                                                     [1.2, 0.3, 1.1, 1.2, 0.2, 9.1]])
+svm_confusion_matrix = ConfusionMatrix([[16.5, 0.1, 1, 1, 0, 0.7],
+                                        [0.5, 9.9, 0.8, 0.4, 2.7, 0.2],
+                                        [1.8, 0.8, 11.5, 1.1, 0.3, 1.1],
+                                        [0.5, 0.3, 0.9, 16.5, 0.4, 0.1],
+                                        [0.9, 2.7, 0.6, 0.9, 10.5, 0.1],
+                                        [1.4, 0.4, 1, 0.3, 0.2, 11.9]])
+randomforest_confusion_matrix = ConfusionMatrix([[15.4, 0, 1.5, 1.1, 0.1, 1.2],
+                                                 [0.6, 8.6, 0.6, 1.1, 3, 0.6],
+                                                 [1.7, 0.1, 11.1, 1.9, 0.1, 1.6],
+                                                 [0.7, 0.6, 0.6, 16.1, 0.4, 0.3],
+                                                 [0.8, 2.2, 0.5, 1.4, 10.9, 0],
+                                                 [1.1, 0.2, 1.2, 0.5, 0.1, 12.2]])
+extratrees_confusion_matrix = ConfusionMatrix([[15.4, 0, 1.5, 1.3, 0.1, 1.1],
+                                               [0.5, 8.3, 0.6, 0.7, 3.8, 0.5],
+                                               [1.9, 0.1, 10.8, 2, 0.1, 1.6],
+                                               [0.8, 0.4, 0.4, 16.4, 0.5, 0.1],
+                                               [1, 2.5, 0.5, 1.2, 10.7, 0],
+                                               [1.1, 0.1, 1, 0.6, 0.1, 12.3]])
+gradientboosting_confusion_matrix = ConfusionMatrix([[15.2, 0.2, 1.7, 0.9, 0.2, 1.1],
+                                                     [0.5, 9.1, 0.5,1.1, 2.7, 0.6],
+                                                     [1.3, 0.6, 12, 1.1, 0.2, 1.3],
+                                                     [0.9, 0.5, 1, 15.3, 0.8, 0.2],
+                                                     [0.9, 1.7, 0.6, 0.7, 11.7, 0.2],
+                                                     [1.1, 0.2, 1.6, 0.5, 0.2, 11.7]])
 confusion_matrixs = {"svm": svm_confusion_matrix,
                      "randomforest": randomforest_confusion_matrix,
                      "extratrees": extratrees_confusion_matrix,
@@ -50,7 +50,7 @@ def extract_feature():
             os.chdir(PROJECT_DIR)
             result = subprocess.call(
                 [".\\smile\\SMILExtract_Release.exe", "-C", ".\\smile\\config\\emobase2010.conf", "-I",
-                 ".\\upload_dir\\" + file_name, "-instname", file_name, "-O",
+                 ".\\static\\upload_dir\\" + file_name, "-instname", file_name, "-O",
                  ".\\smile\\onearff\\" + file_name[0:len(file_name) - 4] + ".arff"])
         except:
             sample.progress = 3
@@ -62,6 +62,7 @@ def extract_feature():
             else:
                 sample.progress = 3
                 sql_session.commit()
+    sql_session.close()
     if samples:
         return True
     else:
@@ -97,6 +98,7 @@ def classification():
             sample.possible_surprise = possible[5]
             sample.progress = 7
             sql_session.commit()
+    sql_session.close()
     if samples:
         return True
     else:
@@ -116,11 +118,10 @@ def find_max_index(tuple):
 def main():
     while True:
         try:
-            while True:
-                extract_feature()
-                if classification():
-                    continue
-                time.sleep(10)
+            extract_feature()
+            if classification():
+                continue
+            time.sleep(5)
         except:
             pass
 

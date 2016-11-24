@@ -5,7 +5,7 @@ import datetime
 import time
 
 Base = declarative_base()
-sql_engine = create_engine('your database')
+sql_engine = create_engine('mysql://emotion:emotion@123.206.79.187/emotion?charset=utf8')
 SqlSession = sessionmaker(bind=sql_engine)
 
 
