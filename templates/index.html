@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <header class="jumbotron" style="background-color:#95f0c8">
+    <header class="jumbotron" style="background-image: url('{{ url_for("static",filename="background5.png") }}')">
+        {#     style="background-color:#FFC652"#}
         <div class="container">
             <div class="row">
                 <div>
-                    <h1 align="center">语音情感挖掘</h1>
-                    <br>
-                    <label class="control-label col-sm-2">上传语音样本</label>
+                    <center>
+                        <img src="{{ url_for("static",filename="YXHlogo7.png") }}" alt=" " width="487.5" height="227.5"
+                             align="center">
+                    </center>
+                    <center><label class="control-label col-sm-2"
+                                   style="color: #eeeeee;font-size: 24px;font-family:'Arial Rounded MT Bold'">上传语音样本</label>
+                    </center>
                     <div class="col-sm-10">
-                        <input id="input_1" type="file" multiple name=file[] class="file" data-show-preview="false"
+                        <input id="input_1" type="file" multiple name="file" class="file" data-show-preview="false"
                                data-allowed-file-extensions='["wav"]'>
                     </div>
                 </div>
@@ -17,13 +22,15 @@
         </div>
     </header>
     <div class="container">
+
+
         <div class="panel panel-default">
-            <div class="panel-heading">历史上传记录</div>
+            {#            <div class="panel-heading">历史上传记录</div>#}
             <table class="table">
                 <thead>
                 <tr>
-                    <th>序号</th>
                     <th>文件名</th>
+                    <th></th>
                     <th>上传时间</th>
                     <th>进展</th>
                     <th>结果</th>
@@ -32,31 +39,51 @@
                 <tbody>
                 {% for item in items %}
                     <tr>
-                        <td>{{ item.id }}</td>
                         <td>{{ item.origin_name }}</td>
+                        <td>
+                            <a data-action="play" href="{{ url_for("static",filename="upload_dir/"+item.store_name) }}"
+                               target="_blank">
+                                <span class="glyphicon glyphicon-play-circle"></span>
+                            </a>&nbsp;&nbsp;&nbsp;
+                            <a href="{{ url_for("static",filename="upload_dir/"+item.store_name) }}" download>
+                                <span class="glyphicon glyphicon-save"></span></a>
+                        </td>
                         <td>{{ item.date_time }}</td>
                         <td>
-                            <font color="#3df02b">上传成功</font>
+                            <font color="#0C9D16">上传成功</font>
                             {% if item.progress>=4 %}
-                                <font color="#3df02b">－>特征提取成功</font>
+                                <font color="#0C9D16">－>特征提取成功</font>
                             {% elif item.progress==3 %}
                                 <font color="#FF0000">－>特征提取失败</font>
                             {% elif item.progress==2 %}
-                                <font color="#FFCC33">－>正在特征提取</font>
+                                <font color="#E89B0C">－>正在特征提取</font>
                             {% else %}
                                 <font color="#C0C0C0">－>特征提取</font>
                             {% endif %}
                             {% if item.progress>=7 %}
-                                <font color="#3df02b">－>分类识别成功</font>
+                                <font color="#0C9D16">－>分类识别成功</font>
                             {% elif item.progress==6 %}
                                 <font color="#FF0000">－>分类识别失败</font>
                             {% elif item.progress==5 %}
-                                <font color="#FFCC33">－>正在分类识别</font>
+                                <font color="#E89B0C">－>正在分类识别</font>
                             {% else %}
-                                <font color="#C0C0C0">－>分类识别</font>
+                                <font color="#888888">－>分类识别</font>
                             {% endif %}
                         </td>
-                        <td>{{ item.result or " " }}</td>
+                        <td>{% if item.result == "angry" %}
+                            <img src="{{ url_for("static",filename="angry.png") }}">&nbsp;&nbsp;愤怒
+                        {% elif item.result == "surprise" %}
+                            <img src="{{ url_for("static",filename="surprise.png") }}">&nbsp;&nbsp;惊讶
+                        {% elif item.result == "sad" %}
+                            <img src="{{ url_for("static",filename="sad.png") }}">&nbsp;&nbsp;悲伤
+                        {% elif item.result == "fear" %}
+                            <img src="{{ url_for("static",filename="fear.png") }}">&nbsp;&nbsp;害怕
+                        {% elif item.result == "neutral" %}
+                            <img src="{{ url_for("static",filename="neutral.png") }}">&nbsp;&nbsp;中性
+                        {% elif item.result == "happy" %}
+                            <img src="{{ url_for("static",filename="happy.png") }}">&nbsp;&nbsp;高兴
+                        {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -83,7 +110,8 @@
 
 {% block scripts %}
     {{ super() }}
+
     <script>
-        $("#input_1").fileinput({uploadUrl: "{{ url_for('upload') }}"});
+        $("#input_1").fileinput({uploadUrl: "{{ url_for('index') }}"});
     </script>
 {% endblock %}
